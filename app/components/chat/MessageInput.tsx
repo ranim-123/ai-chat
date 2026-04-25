@@ -28,13 +28,13 @@ export default function MessageInput({ input, setInput, handleSubmit, isLoading 
   }, [input]);
 
   return (
-    <footer className="p-4 md:p-6 bg-background/80 backdrop-blur-xl border-t border-border shrink-0 z-20">
+    <footer className="px-3 py-3 md:p-6 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] bg-background/80 backdrop-blur-xl border-t border-border shrink-0 z-20">
       <div className="max-w-4xl mx-auto relative">
         <form
           onSubmit={handleSubmit}
-          className="group relative flex items-end gap-2 bg-card border border-border rounded-[2rem] p-2 pr-3 shadow-lg shadow-black/5 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary/50 transition-all duration-300"
+          className="group relative flex items-end gap-1.5 md:gap-2 bg-card border border-border rounded-[1.4rem] md:rounded-4xl p-1.5 md:p-2 pr-2.5 md:pr-3 shadow-lg shadow-black/5 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary/50 transition-all duration-300"
         >
-          <div className="flex items-center self-center px-2">
+          <div className="hidden sm:flex items-center self-center px-2">
             <button
               type="button"
               className="p-2 rounded-full text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
@@ -50,7 +50,7 @@ export default function MessageInput({ input, setInput, handleSubmit, isLoading 
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Message AI Assistant..."
-            className="w-full max-h-[160px] min-h-[48px] bg-transparent resize-none py-3.5 px-1 focus:outline-none text-[15px] leading-relaxed placeholder:text-muted-foreground/60"
+            className="w-full max-h-[160px] min-h-[44px] md:min-h-[48px] bg-transparent resize-none py-2.5 md:py-3.5 px-1 focus:outline-none text-sm md:text-[15px] leading-relaxed placeholder:text-muted-foreground/60"
             rows={1}
           />
 
@@ -58,26 +58,26 @@ export default function MessageInput({ input, setInput, handleSubmit, isLoading 
             {!input.trim() && (
               <button
                 type="button"
-                className="p-2.5 rounded-full text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                className="p-2 rounded-full text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
                 title="Voice input"
               >
-                <Mic size={20} />
+                <Mic size={18} className="md:w-5 md:h-5" />
               </button>
             )}
             
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
-              className={`p-3 shrink-0 rounded-2xl transition-all duration-300 shadow-md ${
+              className={`p-2.5 md:p-3 shrink-0 rounded-xl md:rounded-2xl transition-all duration-300 shadow-md ${
                 !input.trim() || isLoading
                   ? 'bg-muted text-muted-foreground opacity-50'
                   : 'bg-primary text-primary-foreground hover:scale-105 active:scale-95 shadow-primary/20'
               }`}
             >
               {isLoading ? (
-                <Loader2 className="h-5 w-5 animate-spin" />
+                <Loader2 className="h-[18px] w-[18px] md:h-5 md:w-5 animate-spin" />
               ) : (
-                <SendHorizontal className="h-5 w-5" />
+                <SendHorizontal className="h-[18px] w-[18px] md:h-5 md:w-5" />
               )}
             </button>
           </div>

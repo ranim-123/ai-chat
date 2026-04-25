@@ -66,7 +66,7 @@ export default function ChatInterface() {
   };
 
   return (
-    <main className="flex flex-col h-screen max-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
+    <main className="flex flex-col h-dvh max-h-dvh bg-background text-foreground font-sans selection:bg-primary/20">
       <ChatHeader />
       <MessageList messages={messages} isLoading={isLoading} />
       <MessageInput 
