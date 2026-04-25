@@ -1,3 +1,8 @@
+'use client';
+
+import { SendHorizontal, Loader2, Paperclip, Mic } from 'lucide-react';
+import { useRef, useEffect } from 'react';
+
 interface MessageInputProps {
   input: string;
   setInput: (value: string) => void;
@@ -6,6 +11,8 @@ interface MessageInputProps {
 }
 
 export default function MessageInput({ input, setInput, handleSubmit, isLoading }: MessageInputProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -13,34 +20,73 @@ export default function MessageInput({ input, setInput, handleSubmit, isLoading 
     }
   };
 
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 160)}px`;
+    }
+  }, [input]);
+
   return (
-    <footer className="p-4 bg-white/80 dark:bg-zinc-950/80 backdrop-blur border-t border-zinc-200 dark:border-zinc-800 shrink-0 select-none">
-      <div className="max-w-3xl mx-auto relative">
+    <footer className="p-4 md:p-6 bg-background/80 backdrop-blur-xl border-t border-border shrink-0 z-20">
+      <div className="max-w-4xl mx-auto relative">
         <form
           onSubmit={handleSubmit}
-          className="relative flex items-end gap-2 bg-zinc-100 dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-500/50 transition-all"
+          className="group relative flex items-end gap-2 bg-card border border-border rounded-[2rem] p-2 pr-3 shadow-lg shadow-black/5 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary/50 transition-all duration-300"
         >
+          <div className="flex items-center self-center px-2">
+            <button
+              type="button"
+              className="p-2 rounded-full text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+              title="Attach files"
+            >
+              <Paperclip size={20} />
+            </button>
+          </div>
+          
           <textarea
+            ref={textareaRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Message AI..."
-            className="w-full max-h-32 min-h-[44px] bg-transparent resize-none py-2.5 px-3 focus:outline-none text-[15px]"
+            placeholder="Message AI Assistant..."
+            className="w-full max-h-[160px] min-h-[48px] bg-transparent resize-none py-3.5 px-1 focus:outline-none text-[15px] leading-relaxed placeholder:text-muted-foreground/60"
             rows={1}
           />
-          <button
-            type="submit"
-            disabled={!input.trim() || isLoading}
-            className="p-2 shrink-0 rounded-xl bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:hover:bg-blue-600 transition-colors shadow-sm flex items-center justify-center h-10 w-10 mb-0.5"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="22" y1="2" x2="11" y2="13"></line>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-            </svg>
-          </button>
+
+          <div className="flex items-center gap-1.5 self-center">
+            {!input.trim() && (
+              <button
+                type="button"
+                className="p-2.5 rounded-full text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                title="Voice input"
+              >
+                <Mic size={20} />
+              </button>
+            )}
+            
+            <button
+              type="submit"
+              disabled={!input.trim() || isLoading}
+              className={`p-3 shrink-0 rounded-2xl transition-all duration-300 shadow-md ${
+                !input.trim() || isLoading
+                  ? 'bg-muted text-muted-foreground opacity-50'
+                  : 'bg-primary text-primary-foreground hover:scale-105 active:scale-95 shadow-primary/20'
+              }`}
+            >
+              {isLoading ? (
+                <Loader2 className="h-5 w-5 animate-spin" />
+              ) : (
+                <SendHorizontal className="h-5 w-5" />
+              )}
+            </button>
+          </div>
         </form>
-        <div className="text-center mt-2">
-          <span className="text-[11px] text-zinc-500 dark:text-zinc-400 font-medium">AI can make mistakes. Verify important information.</span>
+        
+        <div className="flex justify-center mt-3 px-4">
+          <p className="text-[11px] text-muted-foreground font-medium text-center">
+            AI Assistant can provide incorrect information. Consider checking important facts.
+          </p>
         </div>
       </div>
     </footer>
