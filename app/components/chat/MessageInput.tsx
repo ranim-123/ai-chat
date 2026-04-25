@@ -83,11 +83,7 @@ export default function MessageInput({ input, setInput, handleSubmit, isLoading 
           </div>
         </form>
         
-        <div className="flex justify-center mt-3 px-4">
-          <p className="text-[11px] text-muted-foreground font-medium text-center">
-            AI Assistant can provide incorrect information. Consider checking important facts.
-          </p>
-        </div>
+        
       </div>
     </footer>
   );
